@@ -2,3 +2,6 @@
 */package-lock.json
 */package.json
 */.exercism
+*/babel.config.js
+*/.eslintrc
+package-lock.json
