@@ -1,47 +1,50 @@
-let finalHours;
-let finalMinutes;
+function convertMinutesToHours(minutes, hours) {
+  return Math.floor(minutes / 60) + hours;
+}
 
-const padNumber = num => (`0${num}`).slice(-2);
+function calculateFinalTime(base, total) {
+  return total >= 0 ? total % base : (total % base) + base;
+}
 
-const hoursAreNegetive = (time) => {
-  if (time > -24) {
-    finalHours = 24 + time;
-    return;
+class Clock {
+  constructor(hours, minutes = 0) {
+    this.hours = hours;
+    this.minutes = minutes;
+    this.setTime(hours, minutes);
   }
-  const moduliseTime = time % 24;
-  hoursAreNegetive(moduliseTime);
-};
 
-const minutesAreNegetive = (time) => {
-  const hoursToDeduct = Math.floor(time / 60) % 24;
-  const minutesToDeduct = time % 60;
-  finalHours = (24 + (finalHours + hoursToDeduct)) % 24;
-  finalMinutes = 60 + minutesToDeduct;
-};
-
-const reduceHours = (hours) => {
-  if (hours < 0) {
-    hoursAreNegetive(hours);
-    return finalHours;
+  setTime(hours, minutes) {
+    const totalHours = convertMinutesToHours(minutes, hours);
+    this.hours = calculateFinalTime(24, totalHours);
+    this.minutes = calculateFinalTime(60, minutes);
   }
-  finalHours = hours > 12 ? hours % 12 : hours;
-  return finalHours;
-};
 
-const reduceMinutes = (minutes) => {
-  if (minutes < 0) {
-    minutesAreNegetive(minutes);
-    return finalMinutes;
+  plus(minutes) {
+    const totalMinutes = this.minutes + minutes;
+    this.hours = convertMinutesToHours(totalMinutes, this.hours) % 24;
+    this.minutes = totalMinutes % 60;
+    return this;
   }
-  const additionalHours = Math.floor(minutes / 60);
-  finalMinutes = minutes % 60;
-  finalHours += additionalHours;
-  return finalMinutes;
-};
 
-export const at = (hours, minutes = '00') => {
-  reduceHours(hours);
-  reduceMinutes(minutes);
-  finalHours = finalHours >= 24 ? reduceHours(finalHours) : finalHours;
-  return `${padNumber(finalHours)}:${padNumber(finalMinutes)}`;
-};
+  minus(minutes) {
+    const totalHours = this.hours - Math.ceil(minutes / 60);
+    this.hours = minutes > this.minutes ? calculateFinalTime(24, totalHours) : this.hours;
+    this.hours %= 24;
+    this.minutes = minutes > this.minutes ? 60 - ((minutes - this.minutes) % 60) : this.minutes - minutes;
+    return this;
+  }
+
+  equals(clock) {
+    return (this.hours === clock.hours && this.minutes === clock.minutes);
+  }
+
+  toString() {
+    const hour = (`0${this.hours}`).slice(-2);
+    const min = (`0${this.minutes}`).slice(-2);
+    return `${hour}:${min}`;
+  }
+}
+
+export function at(hours, minutes = 0) {
+  return new Clock(hours, minutes);
+}
