@@ -5,3 +5,4 @@
 */babel.config.js
 */.eslintrc
 package-lock.json
+/grains/*
