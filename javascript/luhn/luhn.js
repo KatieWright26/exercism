@@ -22,7 +22,5 @@ export const valid = cc => {
       return n;
     }).reduce((num, acc) => acc + num, 0);
 
-  if (calulateNumber % 10 === 0) return true;
-
-  return false;
+  return calulateNumber % 10 === 0 ? true : false;
 };
