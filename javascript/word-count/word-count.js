@@ -4,10 +4,13 @@
 //
 
 export const countWords = word => {
-  const arrOfWords = word.trim().replace(/\W/g, " ").split(/\s+/);
-  let wordCount = {};
-  arrOfWords.map(word => {
-    wordCount[word] ? (wordCount[word] += 1) : (wordCount[word] = 1);
-  });
-  return wordCount;
+  const arrOfWords = word
+    .toLowerCase()
+    .match(/['a-z0-9]+/g)
+    .map(word => word.replace(/^'(.*)'$/g, "$1"));
+
+    return arrOfWords.reduce((count, word) => {
+    count[word] ? (count[word] += 1) : (count[word] = 1);
+    return count;
+  }, {});
 };
