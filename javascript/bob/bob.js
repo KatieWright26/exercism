@@ -6,14 +6,14 @@
 
 export const hey = (message) => {
   const msg = message.trim();
-  const isShouting = msg == msg.toUpperCase();
-  const isQuestion = msg[msg.length - 1] === "?";
-  const isNumber = msg.match(/[a-zA-Z]+/g) === null ? true : false;
+  const isShouting = msg === msg.toUpperCase();
+  const isQuestion = msg.charAt(msg.length - 1) === "?";
+  const isNumber = !msg.match(/[a-zA-Z]+/g);
 
+  if(msg.length === 0) return "Fine. Be that way!";
   if (!isQuestion && isShouting && !isNumber) return "Whoa, chill out!";
   if (isQuestion && !isShouting || isNumber && isQuestion) return "Sure.";
   if (isQuestion && isShouting && !isNumber) return "Calm down, I know what I'm doing!";
-  if(msg.length > 0) return "Whatever.";
 
-  return "Fine. Be that way!";
+  return "Whatever.";
 };
