@@ -7,8 +7,9 @@ export const primeFactors = num => {
   let primeFactors = [];
   let count = 2;
   let reducedNumber = num;
-  while(reducedNumber > 1) {
-    if(reducedNumber % count === 0) {
+
+  while (count * count <= reducedNumber * reducedNumber) {
+    if (reducedNumber % count === 0) {
       reducedNumber = reducedNumber / count;
       primeFactors.push(count);
     } else {
