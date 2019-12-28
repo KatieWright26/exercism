@@ -7,7 +7,7 @@ class Clock {
   }
 
   setTime(hours, minutes) {
-    const totalHours = (Math.floor(minutes / MINUTES_IN_HOUR) + hours)
+    const totalHours = (Math.floor(minutes / MINUTES_IN_HOUR) + hours);
     const roundedHours = totalHours % HOURS_IN_DAY;
     const roundedMinutes = minutes % MINUTES_IN_HOUR;
 
@@ -16,13 +16,13 @@ class Clock {
   }
 
   plus(minutes) {
-    this.setTime(this.hours, this.minutes + minutes);
-    return this;
+    const addNewMinutes = this.minutes + minutes;
+    return new Clock(this.hours, addNewMinutes);
   }
 
   minus(minutes) {
-    this.setTime(this.hours, this.minutes - minutes);
-    return this;
+    const minusNewMinutes = this.minutes - minutes;
+    return new Clock(this.hours, minusNewMinutes);
   }
 
   equals(clock) {
