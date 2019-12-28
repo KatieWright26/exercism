@@ -1,36 +1,27 @@
-function convertMinutesToHours(minutes, hours) {
-  return Math.floor(minutes / 60) + hours;
-}
-
-function calculateFinalTime(base, total) {
-  return total >= 0 ? total % base : (total % base) + base;
-}
+const HOURS_IN_DAY = 24;
+const MINUTES_IN_HOUR = 60;
 
 class Clock {
   constructor(hours, minutes = 0) {
-    this.hours = hours;
-    this.minutes = minutes;
     this.setTime(hours, minutes);
   }
 
   setTime(hours, minutes) {
-    const totalHours = convertMinutesToHours(minutes, hours);
-    this.hours = calculateFinalTime(24, totalHours);
-    this.minutes = calculateFinalTime(60, minutes);
+    const totalHours = (Math.floor(minutes / MINUTES_IN_HOUR) + hours)
+    const roundedHours = totalHours % HOURS_IN_DAY;
+    const roundedMinutes = minutes % MINUTES_IN_HOUR;
+
+    this.hours = roundedHours < 0 ? HOURS_IN_DAY + roundedHours : roundedHours;
+    this.minutes = roundedMinutes < 0 ? MINUTES_IN_HOUR + roundedMinutes : roundedMinutes;
   }
 
   plus(minutes) {
-    const totalMinutes = this.minutes + minutes;
-    this.hours = convertMinutesToHours(totalMinutes, this.hours) % 24;
-    this.minutes = totalMinutes % 60;
+    this.setTime(this.hours, this.minutes + minutes);
     return this;
   }
 
   minus(minutes) {
-    const totalHours = this.hours - Math.ceil(minutes / 60);
-    this.hours = minutes > this.minutes ? calculateFinalTime(24, totalHours) : this.hours;
-    this.hours %= 24;
-    this.minutes = minutes > this.minutes ? 60 - ((minutes - this.minutes) % 60) : this.minutes - minutes;
+    this.setTime(this.hours, this.minutes - minutes);
     return this;
   }
 
@@ -40,8 +31,8 @@ class Clock {
 
   toString() {
     const hour = (`0${this.hours}`).slice(-2);
-    const min = (`0${this.minutes}`).slice(-2);
-    return `${hour}:${min}`;
+    const minutes = (`0${this.minutes}`).slice(-2);
+    return `${hour}:${minutes}`;
   }
 }
 
