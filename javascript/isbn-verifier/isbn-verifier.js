@@ -7,16 +7,18 @@ export const isValid = (n) => {
   if (isbn[isbn.length - 1] === CHECK_NUMBER) {
     isbn[isbn.length - 1] = VALID_ISBN_LENGTH;
   }
-  const sanitizedIsbn = isbn.map(Number);
-  if(sanitizedIsbn.some(n => Number.isNaN(n))) return false;
+  if (isbn.some(n => Number.isNaN(n))) return false;
   let count = 10;
 
-  return sanitizedIsbn.reduce((acc, num) => {
-    if (count > 0) {
-      let calc = num * count;
-      acc += calc;
-      count--;
-    }
-    return acc;
-  }, 0) % 11 === 0;
+  return (
+    isbn.reduce((acc, num) => {
+      if (count > 0) {
+        acc += num * count;
+        count--;
+      }
+      return acc;
+    }, 0) %
+      11 ===
+    0
+  );
 };
