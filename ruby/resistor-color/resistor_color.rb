@@ -5,7 +5,7 @@ class ResistorColor
 
   class << self
     def color_code(arg)
-      COLORS.find_index { |color| color == arg }
+      COLORS.index(arg)
     end
   end
 end
