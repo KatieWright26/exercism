@@ -5,7 +5,7 @@ class ResistorColorDuo
     def value(args)
       args[0..1].map do |a|
         COLORS.index(a)
-      end.join('').to_i
+      end.join().to_i
     end
   end
 end
