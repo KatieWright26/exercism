@@ -31,3 +31,18 @@ class AcronymTest < Minitest::Test
     assert_equal "SIMUFTA", Acronym.abbreviate('Something - I made up from thin air')
   end
 end
+
+if defined?(Minitest)
+  describe Acronym do
+    it 'must also deal with more than one dash' do
+      _(Acronym.abbreviate('wait-and-see')).must_equal 'WAS'
+    end
+
+    it 'must not mangle my phrase' do
+      original = 'wait-and-see'
+      submitted = original.dup
+      Acronym.abbreviate(submitted)
+      _(submitted).must_equal original
+    end
+  end
+end
