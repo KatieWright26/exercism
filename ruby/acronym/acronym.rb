@@ -1,7 +1,9 @@
-class Acronym
-  class << self
-    def abbreviate(phrase)
-      phrase.upcase.scan(/\w+/).map { |word| word[0] }.join
-    end
+module Abbreviated
+  def abbreviate(phrase)
+    phrase.upcase.scan(/\w+/).map(&:chr).join
   end
+end
+
+class Acronym
+  extend Abbreviated
 end
